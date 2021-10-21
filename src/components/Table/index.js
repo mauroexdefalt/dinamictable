@@ -34,7 +34,7 @@ const GlobalStyle = createGlobalStyle`
     background-color: #fff;
     height: calc(100% - 30px);
   }
-  th ,  td{
+  th , td{
     border: 1px solid blue;
     width: 158px;
   }
@@ -45,14 +45,28 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-export default function Home() {
-  const [data, setData] = useState([]);
+export default function Home({ dataTable, colums }) {
+  const [data, setData] = useState();
   const [observer, setObserver] = useState(10)
 
-  const te = Array.from({ length: 50000 }, (v, k) => v = { id: k, name: 'mauro', endereco: 'plinio leite' });
+  //const te = Array.from({ length: 50000 }, (v, k) => v = { id: k, name: 'mauro', endereco: 'plinio leite' });
+  const te = dataTable
+
+ 
+
+  function onchange(value){
+
+    
+
+  }
+
+
+  
+
 
   useEffect(() => {
-    console.log(te.filter((item, index) => index <= 10))
+    console.log('dados props', colums, dataTable)
+    //console.log(te.filter((item, index) => index <= 10))
   }, [])
 
   useEffect(() => {
@@ -63,54 +77,63 @@ export default function Home() {
     const intersectionObserver = new IntersectionObserver(entries => {
       if (entries.some(entry => entry.isIntersecting)) {
         console.log('fui observado', entries.some(entry => !entry.isIntersecting))
-        setObserver((observer) => observer + 1000);
+        setObserver((observer) => observer + 50);
       }
     })
     intersectionObserver.observe(document.querySelector('#sentinela'));
     return () => intersectionObserver.disconnect();
   }, []);
 
-
-
-
   return (
     <main>
-
       <GlobalStyle />
       <table>
         <tr>
-          <th><input type='text' /></th>
-          <th><input type='text' /></th>
-          <th><input type='text' /></th>
+          {
+            colums ? colums.map((item) => {
+              return (
+                <th><input type='text' name={item} onChange={}  value={}/></th>
+              )
+            }
+            ) : 'Filtros não encontradas'
+          }
         </tr>
         <tr>
-          <th>id</th>
-          <th>nome</th>
-          <th>endereco</th>
+          {
+            colums ? colums.map((item) => {
+              return (
+                <th>{item}</th>
+              )
+            }
+            ) : 'Filtros não encontradas'
+          }
         </tr>
+
 
 
 
         {data ? data.map((item, index) => {
+
           return (
+
             <tr>
-              <td>{item.id}</td>
-              <td>{item.name}</td>
-              <td>{item.endereco}</td>
-              <td><button>teste</button></td>
-            </tr>)
+              <td>Sprite</td>
+              <td>{item.name.english}</td>
+              <td>{item.base['HP']}</td>
+              <td>{item.base['Attack']}</td>
+              <td>{item.base['Defense']}</td>
+              <td>{item.base['Sp. Attack']}</td>
+              <td>{item.base['Sp. Defense']}</td>
+              <td>{item.base['Speed']}</td>
+              <td>{item.type[0]}</td>
+            </tr>
+
+          )
         }) : 'vazios'}
+
         <tr id="sentinela"></tr>
-
-
       </table>
-
-      <div>
-        teste tamanho array {data.length}
-      </div>
-
-
-
+   
     </main>
 
 
