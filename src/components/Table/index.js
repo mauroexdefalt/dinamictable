@@ -48,20 +48,26 @@ const GlobalStyle = createGlobalStyle`
 export default function Home({ dataTable, colums }) {
   const [data, setData] = useState();
   const [observer, setObserver] = useState(10)
+  const [filter, setFilter] = useState({})
 
   //const te = Array.from({ length: 50000 }, (v, k) => v = { id: k, name: 'mauro', endereco: 'plinio leite' });
   const te = dataTable
 
- 
 
-  function onchange(value){
+  function onchange(i) {
+    const { name, value } = i.target;
+    console.log(name, value)
+    if(name ==  'name'){
+      var arrAtt = te.filter((item, index) => item.name.english.includes(value))
+    }else{
+      var arrAtt = te.filter((item, index) => item.base[name].toString().includes(value))
+    }
 
     
 
+    console.log('art att',arrAtt)
+    setData(arrAtt.splice())
   }
-
-
-  
 
 
   useEffect(() => {
@@ -92,7 +98,7 @@ export default function Home({ dataTable, colums }) {
           {
             colums ? colums.map((item) => {
               return (
-                <th><input type='text' name={item} onChange={}  value={}/></th>
+                <th><input type='text' name={item} onChange={onchange} /></th>
               )
             }
             ) : 'Filtros não encontradas'
@@ -133,7 +139,7 @@ export default function Home({ dataTable, colums }) {
 
         <tr id="sentinela"></tr>
       </table>
-   
+
     </main>
 
 
